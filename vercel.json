@@ -1,0 +1,6 @@
+{
+    "cleanUrls": true,
+    "rewrites": [
+          { "source": "/comment-ca-marche", "destination": "/comment-ca-marche.html" }
+    ]
+}
