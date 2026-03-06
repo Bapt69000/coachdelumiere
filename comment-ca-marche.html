@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comment ça marche — Léa Coach de Lumière</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --creme:   #FAF5EE;
+      --creme2:  #F3EAD9;
+      --or:      #C8952A;
+      --or-light:#E8C87A;
+      --dark:    #2C2416;
+      --text:    #4A3E2E;
+      --grey:    #7A6D5E;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--creme);
+      color: var(--text);
+      font-weight: 300;
+    }
+
+    /* ───── NAV ───── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(250,245,238,0.96);
+      backdrop-filter: blur(8px);
+      padding: 18px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(200,149,42,0.12);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-icon {
+      width: 44px; height: 44px;
+      background: var(--creme2);
+      border: 1.5px solid var(--or);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--or);
+      font-size: 18px;
+    }
+    .nav-links { display: flex; gap: 36px; align-items: center; }
+    .nav-links a {
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--or); }
+    .nav-cta {
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      background: transparent; border: 1px solid var(--or);
+      color: var(--or); padding: 10px 22px;
+      border-radius: 100px; cursor: pointer;
+      text-decoration: none; transition: background .2s, color .2s;
+    }
+    .nav-cta:hover { background: var(--or); color: #fff; }
+
+    /* ───── HERO ───── */
+    .hero {
+      padding: 160px 60px 80px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .eyebrow {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 28px;
+    }
+    .eyebrow::before {
+      content: ''; display: block;
+      width: 34px; height: 1px; background: var(--or);
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(44px, 6vw, 72px);
+      font-weight: 300; line-height: 1.1;
+      color: var(--dark); margin-bottom: 6px;
+    }
+    h1 em {
+      font-style: italic; color: var(--or);
+    }
+    .hero-sub {
+      font-size: 15px; line-height: 1.8;
+      color: var(--grey); max-width: 580px;
+      margin-top: 24px;
+    }
+
+    /* ───── DIVIDER ───── */
+    .divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(200,149,42,0.3), transparent);
+      margin: 20px 0;
+    }
+
+    /* ───── SECTION ───── */
+    section {
+      max-width: 900px; margin: 0 auto;
+      padding: 60px 60px;
+    }
+    section + section { padding-top: 0; }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 300; color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .section-title em { font-style: italic; color: var(--or); }
+
+    /* ───── INTRO BLOCK ───── */
+    .intro-block {
+      background: var(--creme2);
+      border-left: 3px solid var(--or);
+      padding: 28px 32px;
+      border-radius: 0 8px 8px 0;
+      margin: 36px 0 48px;
+    }
+    .intro-block p {
+      font-size: 15px; line-height: 1.9; color: var(--text);
+    }
+    .intro-block p + p { margin-top: 14px; }
+
+    /* ───── GRID ITEMS ───── */
+    .grid-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 36px;
+    }
+    .grid-item {
+      background: var(--creme2);
+      border-radius: 10px;
+      padding: 22px 24px;
+      display: flex; align-items: flex-start; gap: 14px;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .grid-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(200,149,42,0.12);
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--or); flex-shrink: 0;
+      margin-top: 7px;
+    }
+    .grid-item span {
+      font-size: 14px; line-height: 1.6; color: var(--text);
+    }
+
+    /* ───── DIFFERENCE ───── */
+    .diff-block {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 32px; margin-top: 36px;
+    }
+    .diff-card {
+      padding: 32px;
+      border-radius: 12px;
+      background: var(--creme2);
+    }
+    .diff-card.accent {
+      background: linear-gradient(135deg, #2C2416 0%, #4A3E2E 100%);
+    }
+    .diff-card .card-label {
+      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 16px;
+    }
+    .diff-card.accent .card-label { color: var(--or-light); }
+    .diff-card p {
+      font-size: 14px; line-height: 1.8; color: var(--text);
+    }
+    .diff-card.accent p { color: rgba(250,245,238,0.85); }
+
+    /* ───── CE QUE TU REÇOIS ───── */
+    .receive-list {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      margin-top: 32px;
+    }
+    .receive-tag {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 20px;
+      border: 1px solid rgba(200,149,42,0.35);
+      border-radius: 100px;
+      font-size: 13px; color: var(--text);
+      transition: background .2s, border-color .2s;
+    }
+    .receive-tag:hover {
+      background: var(--creme2);
+      border-color: var(--or);
+    }
+    .receive-tag::before {
+      content: '✦';
+      color: var(--or);
+      font-size: 10px;
+    }
+
+    /* ───── RGPD ───── */
+    .rgpd-block {
+      display: flex; align-items: flex-start; gap: 24px;
+      background: var(--creme2);
+      border-radius: 12px;
+      padding: 32px;
+      margin-top: 36px;
+    }
+    .rgpd-icon {
+      width: 48px; height: 48px; flex-shrink: 0;
+      background: var(--or); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 20px;
+    }
+    .rgpd-block h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-weight: 400;
+      color: var(--dark); margin-bottom: 10px;
+    }
+    .rgpd-block p { font-size: 14px; line-height: 1.8; color: var(--grey); }
+
+    /* ───── PHRASE FINALE ───── */
+    .finale {
+      text-align: center;
+      padding: 60px 40px 100px;
+      max-width: 680px; margin: 0 auto;
+    }
+    .finale .quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 80px; line-height: 0.5;
+      color: rgba(200,149,42,0.2);
+      display: block; margin-bottom: 16px;
+    }
+    .finale p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 300; line-height: 1.5;
+      color: var(--dark);
+    }
+    .finale p em { font-style: italic; color: var(--or); }
+
+    /* ───── CTA ───── */
+    .cta-section {
+      text-align: center;
+      padding: 0 40px 100px;
+    }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--or);
+      color: #fff;
+      font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 18px 36px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: opacity .2s, transform .2s;
+      box-shadow: 0 8px 24px rgba(200,149,42,0.3);
+    }
+    .cta-btn:hover { opacity: .88; transform: translateY(-2px); }
+    .cta-meta {
+      margin-top: 14px;
+      font-size: 11px; letter-spacing: 0.08em;
+      color: var(--grey);
+      display: flex; justify-content: center; align-items: center; gap: 18px;
+    }
+    .cta-meta span::before { content: '• '; color: var(--or); }
+
+    /* ───── FOOTER ───── */
+    footer {
+      border-top: 1px solid rgba(200,149,42,0.15);
+      padding: 32px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px; color: var(--grey); letter-spacing: 0.06em;
+    }
+    footer a { color: var(--grey); text-decoration: none; }
+    footer a:hover { color: var(--or); }
+
+    /* ───── REVEAL ANIMATIONS ───── */
+    .reveal {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ───── RESPONSIVE ───── */
+    @media (max-width: 700px) {
+      nav { padding: 14px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 120px 24px 60px; }
+      section { padding: 40px 24px; }
+      .diff-block { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="https://coachdelumiere.vercel.app" class="logo">
+      <div class="logo-icon">Léa</div>
+    </a>
+    <div class="nav-links">
+      <a href="#" class="active">Comment ça marche</a>
+      <a href="https://coachdelumiere.vercel.app/#recevoir">Ce que tu vas recevoir</a>
+      <a href="https://coachdelumiere.vercel.app/#avis">Elles en parlent</a>
+      <a href="https://coachdelumiere.vercel.app/#ados">Parents &amp; Ados</a>
+      <a href="https://coachdelumiere.vercel.app/#entreprises">Léa pour les entreprises</a>
+    </div>
+    <a href="https://wa.me/33600000000" class="nav-cta">Démarrer sur WhatsApp</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero reveal">
+    <div class="eyebrow">La méthode</div>
+    <h1>Comment ça marche</h1>
+    <h1><em>Une méthode sérieuse, douce et structurée</em></h1>
+    <p class="hero-sub">
+      Je m'appuie sur des fondements reconnus d'étude comportementale, d'analyse cognitive, de lecture émotionnelle et de compréhension des situations vécues.
+    </p>
+  </div>
+
+  <div style="max-width:900px;margin:0 auto;padding:0 60px;">
+    <div class="divider"></div>
+  </div>
+
+  <!-- INTRO -->
+  <section class="reveal">
+    <div class="intro-block">
+      <p>Mon objectif n'est pas de te renvoyer un texte générique.</p>
+      <p>Mon objectif est de transformer tes réponses en une lecture claire, cohérente et utile de ce que tu vis.</p>
+    </div>
+  </section>
+
+  <!-- CE QUE JE REGARDE -->
+  <section class="reveal" style="padding-top:0;">
+    <div class="eyebrow">Ce que je regarde</div>
+    <h2 class="section-title">Les signaux <em>qui comptent vraiment</em></h2>
+
+    <div class="grid-list">
+      <div class="grid-item">
+        <div class="dot"></div>
+        <span>Les schémas comportementaux</span>
+      </div>
+      <div class="grid-item">
+        <div class="dot"></div>
+        <span>Les réactions qui reviennent</span>
+      </div>
+      <div class="grid-item">
+        <div class="dot"></div>
+        <span>Les pensées automatiques</span>
+      </div>
+      <div class="grid-item">
+        <div class="dot"></div>
+        <span>Les tensions émotionnelles</span>
+      </div>
+      <div class="grid-item">
+        <div class="dot"></div>
+        <span>Les points de blocage</span>
+      </div>
+      <div class="grid-item">
+        <div class="dot"></div>
+        <span>Les hésitations dans les choix</span>
+      </div>
+      <div class="grid-item">
+        <div class="dot"></div>
+        <span>Les modes de communication</span>
+      </div>
+      <div class="grid-item">
+        <div class="dot"></div>
+        <span>Les éléments de contexte qui influencent ce que tu traverses</span>
+      </div>
+    </div>
+  </section>
+
+  <div style="max-width:900px;margin:0 auto;padding:0 60px;">
+    <div class="divider"></div>
+  </div>
+
+  <!-- MA DIFFÉRENCE -->
+  <section class="reveal">
+    <div class="eyebrow">Ma différence</div>
+    <h2 class="section-title">Deux qualités <em>rarement réunies</em></h2>
+
+    <div class="diff-block">
+      <div class="diff-card">
+        <div class="card-label">Compréhension humaine</div>
+        <p>
+          Je réunis la finesse de compréhension que l'on attend d'une vraie présence humaine, et la rigueur de traitement de l'intelligence artificielle.
+        </p>
+      </div>
+      <div class="diff-card accent">
+        <div class="card-label">Analyse structurée</div>
+        <p>
+          Je ne m'arrête pas à une réponse isolée. Je relie les informations, je clarifie les tensions, et je t'aide à comprendre ce qui se joue avec plus de justesse.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div style="max-width:900px;margin:0 auto;padding:0 60px;">
+    <div class="divider"></div>
+  </div>
+
+  <!-- CE QUE TU REÇOIS -->
+  <section class="reveal">
+    <div class="eyebrow">Ce que tu reçois</div>
+    <h2 class="section-title">Une analyse <em>directement utile</em></h2>
+
+    <div class="receive-list">
+      <div class="receive-tag">Personnalisée</div>
+      <div class="receive-tag">Structurée</div>
+      <div class="receive-tag">Claire</div>
+      <div class="receive-tag">Sans jargon inutile</div>
+      <div class="receive-tag">Directement utile</div>
+    </div>
+  </section>
+
+  <div style="max-width:900px;margin:0 auto;padding:0 60px;">
+    <div class="divider"></div>
+  </div>
+
+  <!-- CONFIDENTIALITÉ -->
+  <section class="reveal">
+    <div class="eyebrow">Confidentialité</div>
+    <div class="rgpd-block">
+      <div class="rgpd-icon">🔒</div>
+      <div>
+        <h3>Tes données t'appartiennent</h3>
+        <p>
+          Tes réponses restent confidentielles. Tu gardes le contrôle sur tes données personnelles, avec une gestion pensée dans le respect du RGPD.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHRASE FINALE -->
+  <div class="finale reveal">
+    <span class="quote-mark">"</span>
+    <p>
+      Je combine <em>finesse d'analyse, compréhension humaine</em> et intelligence artificielle<br>
+      pour t'aider à mieux comprendre ce que tu vis.
+    </p>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section reveal">
+    <a href="https://wa.me/33600000000" class="cta-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.374 0 0 5.373 0 12c0 2.117.549 4.107 1.51 5.845L.057 23.882a.5.5 0 00.61.61l6.057-1.447A11.942 11.942 0 0012 24c6.626 0 12-5.374 12-12S18.626 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.715.888.905-3.609-.234-.372A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+      Commencer sur WhatsApp
+    </a>
+    <div class="cta-meta">
+      <span>10 min</span>
+      <span>WhatsApp</span>
+      <span>Confidentiel</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Léa — Coach de Lumière</span>
+    <div style="display:flex;gap:24px;">
+      <a href="#">Confidentialité</a>
+      <a href="#">Mentions légales</a>
+      <a href="#">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
