@@ -1,9 +1,8 @@
 {
-    "cleanUrls": true,
-    "rewrites": [
-        { "source": "/comment-ca-marche", "destination": "/comment-ca-marche.html" },
-        { "source": "/parents-ados", "destination": "/parents-ados.html" },
-        { "source": "/entreprises", "destination": "/lea-entreprises.html" }
-    ]
+        "cleanUrls": true,
+        "rewrites": [
+                    { "source": "/comment-ca-marche", "destination": "/comment-ca-marche.html" },
+                    { "source": "/parents-ados", "destination": "/parents-ados.html" },
+                    { "source": "/entreprises", "destination": "/entreprises.html" }
+        ]
 }
- 
