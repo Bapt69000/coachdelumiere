@@ -1,6 +1,7 @@
 {
     "cleanUrls": true,
     "rewrites": [
-          { "source": "/comment-ca-marche", "destination": "/comment-ca-marche.html" }
+          { "source": "/comment-ca-marche", "destination": "/comment-ca-marche.html" },
+                { "source": "/parents-ados", "destination": "/parents-ados.html" }
     ]
 }
