@@ -176,19 +176,17 @@
 
 <script src="/script.js"></script>
 <style>
-  .privacy-badge { position: relative; cursor: pointer; user-select: none; }
+  .privacy-badge { cursor: pointer; user-select: none; }
   .rgpd-tooltip {
     display: none;
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    z-index: 50;
+    position: fixed;
+    z-index: 200;
     background: var(--cream);
     border: 1px solid rgba(196,146,30,0.3);
     border-radius: 10px;
     padding: 18px 20px;
     width: 280px;
-    box-shadow: 0 8px 32px rgba(61,46,26,0.12);
+    box-shadow: 0 8px 32px rgba(61,46,26,0.15);
     animation: panelIn 0.2s ease;
   }
   .rgpd-tooltip.open { display: block; }
@@ -197,17 +195,19 @@
     font-size: 16px; font-weight: 400;
     color: var(--ink); margin-bottom: 10px;
   }
-  .rgpd-tooltip p {
-    font-size: 13px; line-height: 1.75;
-    color: var(--ink-mid);
-  }
+  .rgpd-tooltip p { font-size: 13px; line-height: 1.75; color: var(--ink-mid); }
 </style>
 <script>
   const badge = document.getElementById('rgpdBadge');
   const tooltip = document.getElementById('rgpdTooltip');
+  // Déplacer le tooltip dans le body pour échapper à overflow:hidden
+  document.body.appendChild(tooltip);
   if (badge && tooltip) {
     badge.addEventListener('click', (e) => {
       e.stopPropagation();
+      const rect = badge.getBoundingClientRect();
+      tooltip.style.top = (rect.bottom + 10) + 'px';
+      tooltip.style.left = Math.min(rect.left, window.innerWidth - 300) + 'px';
       tooltip.classList.toggle('open');
     });
     document.addEventListener('click', () => tooltip.classList.remove('open'));
