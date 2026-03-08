@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Léa pour les entreprises — Coach de Lumière</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .page-hero { padding: 160px 80px 80px; max-width: 900px; margin: 0 auto; }
+    .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; }
+    .eyebrow::before { content: ''; display: block; width: 34px; height: 1px; background: var(--gold); }
+    .page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(44px, 5.5vw, 68px); font-weight: 300; line-height: 1.1; color: var(--ink); }
+    .page-title em { font-style: italic; color: var(--gold); }
+    .page-sub { font-size: 15px; line-height: 1.8; color: var(--ink-mid); max-width: 580px; margin-top: 24px; }
+    .page-section { max-width: 900px; margin: 0 auto; padding: 60px 80px; }
+    .divider { width: 100%; height: 1px; background: linear-gradient(to right, transparent, rgba(200,149,42,0.3), transparent); margin: 20px 0; }
+    .intro-block { background: var(--cream-dark); border-left: 3px solid var(--gold); padding: 28px 32px; border-radius: 0 8px 8px 0; margin: 36px 0; }
+    .intro-block p { font-size: 15px; line-height: 1.9; color: var(--ink); }
+    .intro-block p + p { margin-top: 14px; }
+    .contexts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+    .context-card { background: var(--cream-dark); border-radius: 12px; padding: 24px 26px; transition: transform .25s, box-shadow .25s; }
+    .context-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(200,149,42,0.1); }
+    .context-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; color: var(--ink); margin-bottom: 8px; }
+    .context-card p { font-size: 13.5px; line-height: 1.65; color: var(--ink-mid); }
+    .values-list { display: flex; flex-direction: column; gap: 14px; margin-top: 32px; }
+    .value-item { display: flex; align-items: flex-start; gap: 14px; font-size: 15px; line-height: 1.6; color: var(--ink); }
+    .value-item::before { content: '✦'; color: var(--gold); font-size: 11px; margin-top: 4px; flex-shrink: 0; }
+    .experience-block { background: linear-gradient(135deg, #2C2416 0%, #4A3E2E 100%); border-radius: 20px; padding: 48px; margin-top: 40px; }
+    .experience-block p { font-size: 15px; line-height: 1.8; color: rgba(250,245,238,0.85); }
+    .experience-block p + p { margin-top: 14px; }
+    .disclaimer { font-size: 12px; color: var(--ink-mid); font-style: italic; text-align: center; max-width: 600px; margin: 32px auto 0; line-height: 1.7; }
+    .cta-section { text-align: center; padding: 60px 40px 100px; }
+    .cta-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--gold); color: #fff; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 18px 36px; border-radius: 100px; text-decoration: none; transition: opacity .2s, transform .2s; box-shadow: 0 8px 24px rgba(200,149,42,0.3); }
+    .cta-btn:hover { opacity: .88; transform: translateY(-2px); }
+    @media (max-width: 900px) {
+      .contexts-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 700px) {
+      .page-hero, .page-section { padding-left: 24px; padding-right: 24px; }
+      .page-hero { padding-top: 120px; }
+      .contexts-grid { grid-template-columns: 1fr; }
+      .experience-block { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">
+    <a href="/"><img src="/logo.png" alt="Léa Coach de Lumière" /></a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="/comment-ca-marche">Comment Léa fonctionne</a></li>
+    <li><a href="/#temoignages">Elles en parlent</a></li>
+    <li><a href="/famille-couples-amis">Léa pour la famille, les couples et les amis</a></li>
+    <li><a href="/entreprises" class="active">Léa pour les entreprises</a></li>
+    <li><a href="https://wa.me/33609509718" class="nav-cta">Démarrer sur WhatsApp</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── MENU MOBILE ── -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/comment-ca-marche">Comment Léa fonctionne</a>
+  <a href="/#temoignages">Elles en parlent</a>
+  <a href="/famille-couples-amis">Famille, couples & amis</a>
+  <a href="/entreprises">Entreprises</a>
+  <a href="https://wa.me/33609509718" class="nav-cta">Démarrer sur WhatsApp</a>
+</div>
+
+<!-- ── HERO ── -->
+<div class="page-hero reveal">
+  <div class="eyebrow">Professionnels & Entreprises</div>
+  <h1 class="page-title">Léa pour les <em>entreprises</em></h1>
+  <p class="page-sub">Dans certaines activités, la qualité d'un échange change tout. Léa aide à préparer des situations humaines complexes avec plus de clarté et de justesse.</p>
+</div>
+<div style="max-width:900px;margin:0 auto;padding:0 80px;"><div class="divider"></div></div>
+
+<!-- ── INTRO ── -->
+<section class="page-section reveal">
+  <div class="intro-block">
+    <p>Certaines décisions ne reposent pas seulement sur une offre, un process ou une expertise technique. Elles reposent sur la qualité d'un échange humain.</p>
+    <p>Je peux aider à mieux préparer un échange, mieux cerner un contexte, et avancer avec plus de précision et de justesse.</p>
+  </div>
+</section>
+<div style="max-width:900px;margin:0 auto;padding:0 80px;"><div class="divider"></div></div>
+
+<!-- ── CONTEXTES ── -->
+<section class="page-section reveal">
+  <div class="eyebrow">Contextes</div>
+  <h2 class="page-title" style="font-size:clamp(28px,3.5vw,42px);">Léa peut être utile dans de nombreux<br><em>contextes professionnels</em></h2>
+  <div class="contexts-grid">
+    <div class="context-card">
+      <h3>Équipes commerciales</h3>
+      <p>Pour préparer des échanges plus justes, plus fluides et mieux ciblés.</p>
+    </div>
+    <div class="context-card">
+      <h3>Conseil et accompagnement</h3>
+      <p>Pour clarifier une situation avant un rendez-vous ou une prise de décision.</p>
+    </div>
+    <div class="context-card">
+      <h3>Métiers techniques avec relation client</h3>
+      <p>Pour mieux comprendre le contexte humain autour d'un besoin, d'une attente ou d'un blocage.</p>
+    </div>
+    <div class="context-card">
+      <h3>Recrutement et sélection</h3>
+      <p>Pour affiner une lecture et préparer un échange avec plus de discernement.</p>
+    </div>
+    <div class="context-card">
+      <h3>Entretiens professionnels</h3>
+      <p>Pour préparer plus justement un rendez-vous, clarifier les points d'attention, et aborder l'échange avec plus de sérénité.</p>
+    </div>
+    <div class="context-card">
+      <h3>Management et dynamique d'équipe</h3>
+      <p>Pour éclairer certaines tensions, incompréhensions ou pertes d'alignement.</p>
+    </div>
+    <div class="context-card">
+      <h3>Formation et montée en compétence</h3>
+      <p>Pour accompagner plus finement des profils différents.</p>
+    </div>
+    <div class="context-card">
+      <h3>Accompagnement du changement</h3>
+      <p>Pour aborder les phases sensibles avec plus de lisibilité et de justesse.</p>
+    </div>
+    <div class="context-card">
+      <h3>Structures à forte dimension humaine</h3>
+      <p>Cabinets, agences, réseaux, indépendants, accompagnants, services à forte relation.</p>
+    </div>
+  </div>
+</section>
+<div style="max-width:900px;margin:0 auto;padding:0 80px;"><div class="divider"></div></div>
+
+<!-- ── VALEUR ── -->
+<section class="page-section reveal">
+  <div class="eyebrow">Valeur</div>
+  <h2 class="page-title" style="font-size:clamp(28px,3.5vw,42px);">Ce que Léa peut apporter<br><em>à votre activité</em></h2>
+  <div class="values-list">
+    <div class="value-item">Plus de clarté avant un échange.</div>
+    <div class="value-item">Moins de maladresses dans la relation.</div>
+    <div class="value-item">Un meilleur niveau de préparation.</div>
+    <div class="value-item">Un gain de temps réel pour les équipes.</div>
+    <div class="value-item">Une lecture plus fine des situations humaines complexes.</div>
+  </div>
+</section>
+<div style="max-width:900px;margin:0 auto;padding:0 80px;"><div class="divider"></div></div>
+
+<!-- ── EXPÉRIENCE ── -->
+<section class="page-section reveal">
+  <div class="eyebrow">Expérience</div>
+  <h2 class="page-title" style="font-size:clamp(28px,3.5vw,42px);">La meilleure façon de comprendre Léa,<br><em>c'est de l'expérimenter vous-même.</em></h2>
+  <div class="experience-block">
+    <p>Quoi de plus parlant que de tester Léa sur vous-même ? En quelques minutes, vous découvrez la profondeur et la précision de l'analyse.</p>
+    <p>Si l'expérience vous convainc, une présentation plus approfondie des capacités de Léa pour votre activité peut être organisée.</p>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<div class="cta-section reveal" id="test">
+  <a href="https://wa.me/33609509718" class="cta-btn">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.374 0 0 5.373 0 12c0 2.117.549 4.107 1.51 5.845L.057 23.882a.5.5 0 00.61.61l6.057-1.447A11.942 11.942 0 0012 24c6.626 0 12-5.374 12-12S18.626 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.715.888.905-3.609-.234-.372A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+    Passer le test gratuit
+  </a>
+  <p class="disclaimer">Léa accompagne la réflexion. Elle ne remplace ni l'humain, ni le discernement, ni la responsabilité de chacun dans ses décisions.</p>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo"><img src="/logo.png" alt="Léa" /></div>
+  <ul class="footer-links">
+    <li><a href="#">Confidentialité</a></li>
+    <li><a href="#">Mentions légales</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 Léa — Coach de Lumière</p>
+</footer>
+
+<script src="/script.js"></script>
+</body>
+</html>
