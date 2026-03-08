@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+User-agent: GPTBot
+Disallow: /mentions-legales
+Disallow: /confidentialite
+
+User-agent: OAI-SearchBot
+Disallow: /mentions-legales
+Disallow: /confidentialite
+
+User-agent: CCBot
+Disallow: /mentions-legales
+Disallow: /confidentialite
+
+User-agent: Google-Extended
+Disallow: /mentions-legales
+Disallow: /confidentialite
