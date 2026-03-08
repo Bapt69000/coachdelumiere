@@ -103,10 +103,14 @@
       <p class="step-desc">Quand c'est nécessaire, Léa peut aussi t'accompagner dans la suite. Pour mettre de la clarté dans une relation. Pour comprendre un blocage. Pour sortir d'une confusion. Pour retrouver une direction plus juste.</p>
     </div>
     <div class="step step-privacy reveal reveal-delay-4">
-      <div class="privacy-badge">🔒 RGPD</div>
+      <div class="privacy-badge" id="rgpdBadge">🔒 RGPD</div>
+      <div class="rgpd-tooltip" id="rgpdTooltip">
+        <div class="rgpd-tooltip-title">Qu'est-ce que le RGPD ?</div>
+        <p>Le RGPD (Règlement Général sur la Protection des Données) est la loi européenne qui protège tes données personnelles. Il te garantit notamment le droit de savoir quelles données sont collectées, de les modifier, et de demander leur suppression à tout moment.</p>
+      </div>
       <div class="step-num">04</div>
       <div class="step-title">Confidentialité, contrôle et liberté</div>
-      <p class="step-desc">Parce que Léa est une intelligence artificielle, tes échanges ne sont pas lus par une personne humaine — sauf si tu en fais toi-même la demande. Cela crée un cadre plus confidentiel, plus libre, et souvent plus simple pour dire les choses telles qu'elles sont. À tout moment, tu peux interrompre l'échange ou demander l'effacement de tes données. Tu gardes le contrôle du début à la fin.</p>
+      <p class="step-desc">Parce que Léa est une intelligence artificielle, tes échanges ne sont pas lus par une personne humaine — sauf si tu en fais toi-même la demande. Mais Léa ne se contente pas de respecter le RGPD : elle a été pensée pour aller plus loin. Moins de lecture humaine, plus de discrétion, plus de liberté, et un contrôle laissé à la personne du début à la fin. À tout moment, tu peux interrompre l'échange ou demander l'effacement de tes données.</p>
     </div>
   </div>
 </section>
@@ -171,5 +175,43 @@
 </footer>
 
 <script src="/script.js"></script>
+<style>
+  .privacy-badge { position: relative; cursor: pointer; user-select: none; }
+  .rgpd-tooltip {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    z-index: 50;
+    background: var(--cream);
+    border: 1px solid rgba(196,146,30,0.3);
+    border-radius: 10px;
+    padding: 18px 20px;
+    width: 280px;
+    box-shadow: 0 8px 32px rgba(61,46,26,0.12);
+    animation: panelIn 0.2s ease;
+  }
+  .rgpd-tooltip.open { display: block; }
+  .rgpd-tooltip-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px; font-weight: 400;
+    color: var(--ink); margin-bottom: 10px;
+  }
+  .rgpd-tooltip p {
+    font-size: 13px; line-height: 1.75;
+    color: var(--ink-mid);
+  }
+</style>
+<script>
+  const badge = document.getElementById('rgpdBadge');
+  const tooltip = document.getElementById('rgpdTooltip');
+  if (badge && tooltip) {
+    badge.addEventListener('click', (e) => {
+      e.stopPropagation();
+      tooltip.classList.toggle('open');
+    });
+    document.addEventListener('click', () => tooltip.classList.remove('open'));
+  }
+</script>
 </body>
 </html>
