@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FAF8F2">
+<title>Assistant d'accueil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF8F2; --ink:#1A1A1A; --soft:#4A4A4A; --faint:#8A8A8A;
+    --petrole:#173B3A; --petrole-soft:#173B3A0F; --petrole-line:#173B3A22;
+    --card:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'Jost',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+  }
+  .serif{font-family:'Cormorant Garamond',Georgia,serif;}
+  .frame{
+    position:relative;width:100vw;height:100dvh;
+    background:var(--bg);overflow:hidden;
+  }
+  @media(min-width:520px){
+    body{ background:#0F0F0F; }
+    .frame{
+      width:min(100vw, calc(100dvh * 0.5625));
+      height:min(100dvh, calc(100vw * 1.7778));
+      border-radius:20px;
+      box-shadow:0 26px 80px rgba(0,0,0,.45);
+    }
+  }
+  .panel{
+    position:absolute;inset:0;
+    padding:max(clamp(40px,9vw,60px), env(safe-area-inset-top)) clamp(28px,7vw,40px) max(clamp(36px,8vw,52px), env(safe-area-inset-bottom));
+    display:none;flex-direction:column;
+    opacity:0;transform:translateY(12px);
+    transition:opacity .45s ease, transform .45s ease;
+  }
+  .panel.active{display:flex;opacity:1;transform:none;}
+  .logo{
+    text-align:center;font-family:'Cormorant Garamond',serif;
+    color:var(--petrole);font-size:13px;letter-spacing:.32em;
+    font-weight:500;text-transform:uppercase;margin-bottom:6px;
+  }
+  .logo-sub{
+    text-align:center;font-size:9.5px;color:var(--petrole);
+    letter-spacing:.20em;text-transform:uppercase;font-weight:400;
+    margin-bottom:auto;opacity:.7;
+  }
+  .step{
+    position:absolute;top:max(clamp(40px,9vw,60px), env(safe-area-inset-top));
+    right:clamp(28px,7vw,40px);
+    font-size:10px;letter-spacing:.18em;color:var(--faint);font-weight:600;
+  }
+  h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,9.2vw,46px);
+    font-weight:400;line-height:1.12;letter-spacing:-.01em;color:var(--petrole);}
+  h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,7.6vw,38px);
+    font-weight:400;line-height:1.14;letter-spacing:-.01em;color:var(--petrole);}
+  .lead{font-size:clamp(15px,4vw,17px);line-height:1.55;color:var(--soft);font-weight:400;margin-top:14px;}
+  .center{text-align:center;}
+  .grow{flex:1;min-height:14px;}
+  .sp{height:14px;} .sp-l{height:24px;}
+
+  .btn{
+    display:flex;align-items:center;justify-content:center;
+    width:100%;padding:18px 22px;border-radius:14px;
+    font-family:'Jost',sans-serif;font-size:15px;font-weight:500;
+    letter-spacing:.04em;cursor:pointer;border:0;
+    transition:transform .15s ease, opacity .15s ease;
+  }
+  .btn:active{transform:scale(.98);}
+  .btn-primary{background:var(--petrole);color:var(--bg);}
+  .btn-ghost{background:transparent;color:var(--petrole);border:1.5px solid var(--petrole);}
+  .btn + .btn{margin-top:12px;}
+
+  .qual-q{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,8vw,40px);
+    line-height:1.18;color:var(--petrole);text-align:center;font-weight:400;}
+
+  .promise{text-align:center;}
+  .promise .num{font-family:'Cormorant Garamond',serif;font-size:clamp(60px,16vw,90px);
+    line-height:1;color:var(--petrole);font-weight:400;letter-spacing:-.02em;}
+  .promise .unit{font-size:13px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--petrole);font-weight:500;margin-top:6px;opacity:.75;}
+  .promise .conclusion{margin-top:42px;font-family:'Cormorant Garamond',serif;
+    font-size:clamp(22px,5.8vw,28px);line-height:1.3;color:var(--petrole);font-weight:400;}
+
+  .brief{background:var(--card);border:1px solid var(--petrole-line);border-radius:18px;
+    overflow:hidden;box-shadow:0 8px 24px rgba(23,59,58,.06);}
+  .brief .bh{background:var(--petrole);color:var(--bg);padding:14px 18px;
+    display:flex;align-items:center;justify-content:space-between;}
+  .brief .bh .bt{font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:.16em;
+    text-transform:uppercase;font-weight:500;}
+  .brief .bh .bn{font-size:10.5px;letter-spacing:.14em;font-weight:500;text-transform:uppercase;opacity:.7;}
+  .brief .bl{padding:14px 18px;border-bottom:1px solid var(--petrole-line);}
+  .brief .bl:last-child{border-bottom:0;}
+  .brief .bl .k{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--petrole);opacity:.65;}
+  .brief .bl .v{font-size:14.5px;color:var(--ink);margin-top:5px;line-height:1.45;}
+
+  .calc{background:var(--card);border:1px solid var(--petrole-line);border-radius:18px;
+    padding:20px 18px;box-shadow:0 8px 24px rgba(23,59,58,.06);}
+  .field{margin-bottom:18px;}
+  .field:last-of-type{margin-bottom:0;}
+  .field label{font-size:12px;font-weight:500;color:var(--soft);letter-spacing:.02em;
+    display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+  .field label .val{color:var(--petrole);font-size:15px;font-weight:600;font-family:'Cormorant Garamond',serif;flex:none;}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:99px;
+    background:var(--petrole-soft);margin-top:12px;cursor:pointer;border:1px solid var(--petrole-line);
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;
+    background:var(--petrole);border:3px solid var(--bg);box-shadow:0 2px 6px rgba(23,59,58,.35);
+  }
+  input[type=range]::-moz-range-thumb{
+    width:20px;height:20px;border-radius:50%;background:var(--petrole);
+    border:3px solid var(--bg);box-shadow:0 2px 6px rgba(23,59,58,.35);
+  }
+  .result{margin-top:18px;background:var(--petrole);border-radius:14px;padding:20px 18px;text-align:center;color:var(--bg);}
+  .result .rnum{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,9vw,42px);
+    font-weight:400;line-height:1;letter-spacing:-.015em;}
+  .result .rlbl{font-size:10px;margin-top:7px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;opacity:.75;}
+  .result .rsep{height:1px;background:rgba(250,248,242,.18);margin:15px 0;}
+  .result .rnote{margin-top:14px;font-size:11px;line-height:1.5;opacity:.72;}
+
+  .qr-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;
+    background:var(--card);border:1px solid var(--petrole-line);border-radius:18px;
+    padding:24px 20px;box-shadow:0 8px 24px rgba(23,59,58,.06);}
+  .qr{width:180px;height:180px;background:var(--bg);border-radius:12px;padding:10px;}
+  .qr img{width:100%;height:100%;display:block;}
+  .qr-cap{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--petrole);text-align:center;}
+
+  .offer{background:var(--card);border:1px solid var(--petrole-line);border-radius:18px;
+    padding:22px 20px;box-shadow:0 8px 24px rgba(23,59,58,.06);}
+  .price{display:flex;align-items:baseline;gap:10px;padding-bottom:14px;margin-bottom:14px;
+    border-bottom:1px solid var(--petrole-line);}
+  .price .amt{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:400;letter-spacing:-.01em;color:var(--petrole);}
+  .price .per{font-size:13px;font-weight:500;color:var(--soft);letter-spacing:.04em;}
+  .oline{font-size:13.5px;font-weight:400;color:var(--ink);padding-left:24px;position:relative;line-height:1.5;}
+  .oline+.oline{margin-top:10px;}
+  .oline::before{content:"✓";position:absolute;left:0;top:1px;color:var(--petrole);font-weight:600;font-size:13px;}
+  .contact{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:var(--bg);border:1px solid var(--petrole-line);border-radius:12px;padding:14px 16px;margin-top:14px;}
+  .contact .who{font-size:13px;font-weight:500;}
+  .contact .ph{font-size:14px;font-weight:500;color:var(--petrole);letter-spacing:.02em;}
+  .legal{font-size:9.5px;color:var(--faint);text-align:center;line-height:1.5;margin-top:12px;letter-spacing:.04em;}
+
+  .goodbye{display:flex;align-items:center;justify-content:center;text-align:center;}
+  .goodbye .gb-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,7vw,36px);
+    font-weight:400;color:var(--petrole);line-height:1.25;}
+  .goodbye .gb-sub{margin-top:20px;font-size:14px;color:var(--soft);letter-spacing:.04em;}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <!-- PAGE 1 — QUALIFICATION -->
+  <section class="panel active" data-i="1">
+    <div class="step">01 / 06</div>
+    <div class="logo">Assistant d'accueil</div>
+    <div class="logo-sub">Préparer chaque premier échange</div>
+    <div class="grow"></div>
+    <div class="qual-q">L'accueil de vos prospects est-il un point important pour votre activité ?</div>
+    <div class="grow"></div>
+    <button class="btn btn-primary" onclick="go(2)">Oui</button>
+    <button class="btn btn-ghost" onclick="go('goodbye')">Non</button>
+  </section>
+
+  <!-- PAGE 2 — PROMESSE -->
+  <section class="panel" data-i="2">
+    <div class="step">02 / 06</div>
+    <div class="logo">Assistant d'accueil</div>
+    <div class="logo-sub">Préparer chaque premier échange</div>
+    <div class="grow"></div>
+    <div class="promise">
+      <div class="num">10</div>
+      <div class="unit">Questions</div>
+      <div style="height:32px;"></div>
+      <div class="num">5</div>
+      <div class="unit">Minutes</div>
+      <div class="conclusion">Vous savez exactement<br>comment aborder<br>votre prochain prospect.</div>
+    </div>
+    <div class="grow"></div>
+    <button class="btn btn-primary" onclick="go(3)">Voir comment</button>
+  </section>
+
+  <!-- PAGE 3 — BRIEF EXEMPLE -->
+  <section class="panel" data-i="3">
+    <div class="step">03 / 06</div>
+    <div class="logo">Assistant d'accueil</div>
+    <div class="logo-sub">Préparer chaque premier échange</div>
+    <div class="sp-l"></div>
+    <h2 class="center">Voici ce que vous recevez<br>5 min avant le rendez-vous.</h2>
+    <div class="sp-l"></div>
+    <div class="brief">
+      <div class="bh"><span class="bt">Brief d'accueil</span><span class="bn">exemple</span></div>
+      <div class="bl"><div class="k">Registre conseillé</div><div class="v">Clair et concret</div></div>
+      <div class="bl"><div class="k">Erreur à éviter</div><div class="v">Ne pas utiliser une offre limitée ou une urgence tarifaire comme principal levier.</div></div>
+      <div class="bl"><div class="k">À privilégier</div><div class="v">Donner une vue claire des conditions, puis laisser un temps de décision propre.</div></div>
+      <div class="bl"><div class="k">Premier pas recommandé</div><div class="v">Programme court, lisible, sans surcharge.</div></div>
+    </div>
+    <div class="grow"></div>
+    <button class="btn btn-primary" onclick="go(4)">Continuer</button>
+  </section>
+
+  <!-- PAGE 4 — CALCULATEUR -->
+  <section class="panel" data-i="4">
+    <div class="step">04 / 06</div>
+    <div class="logo">Assistant d'accueil</div>
+    <div class="logo-sub">Préparer chaque premier échange</div>
+    <div class="sp-l"></div>
+    <h2 class="center">Quand un prospect repart<br>sans signer, combien ça vous coûte ?</h2>
+    <div class="sp"></div>
+    <div class="calc">
+      <div class="field">
+        <label>Prospects rencontrés / mois <span class="val" id="vPros">8</span></label>
+        <input type="range" id="pros" min="2" max="40" step="1" value="8">
+      </div>
+      <div class="field">
+        <label>Abonnement mensuel moyen <span class="val" id="vFee">40 €</span></label>
+        <input type="range" id="fee" min="15" max="100" step="5" value="40">
+      </div>
+      <div class="field">
+        <label>Sur 10 RDV, combien repartent sans signer <span class="val" id="vNo">5</span></label>
+        <input type="range" id="no" min="1" max="9" step="1" value="5">
+      </div>
+      <div class="result">
+        <div class="rnum" id="lostCount">—</div>
+        <div class="rlbl">contrats perdus / an</div>
+        <div class="rsep"></div>
+        <div class="rnum" id="euro">—</div>
+        <div class="rlbl">de CA non réalisé / an</div>
+        <div class="rnote" id="resultNote">—</div>
+      </div>
+    </div>
+    <div class="grow"></div>
+    <button class="btn btn-primary" onclick="go(5)">Continuer</button>
+  </section>
+
+  <!-- PAGE 5 — QR TEST DÉMO -->
+  <section class="panel" data-i="5">
+    <div class="step">05 / 06</div>
+    <div class="logo">Assistant d'accueil</div>
+    <div class="logo-sub">Préparer chaque premier échange</div>
+    <div class="grow"></div>
+    <h2 class="center">Faites-le maintenant.</h2>
+    <div class="lead center">En 5 minutes vous savez<br>si ça marche pour vous.</div>
+    <div class="sp-l"></div>
+    <div class="qr-wrap">
+      <div class="qr"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUoAAAFKAQAAAABTUiuoAAACSUlEQVR4nO2bTYrjMBCF32sLsrQhB+ijKDeYI/XVrKPMARqkZYPMm0XJP6GHIVl4IujSwkjkWzx4qFRVUig8ONLboyTgqKOOvgGFbdwKyRsWkhMAlID1p9CJVkcxSJJks7kE+8Usi5KkfK4AR59C2+4BQL5XIGa0D2y/nS3A0efR8Yuay0VIJIGx/m8Bjv57hOOiXEWMn1T69RmUONzZ9XKtjppbLY0fv2i5RcwQYr4CGAWgnCfA0SfRxfI+oFyEmAeZZTcASOSaInah9WejvKuOlyCUayVwHwQBr447QUtYtxAvQpoWIuZ9vwV4vdULCikPOs5GyaqsGYN9gFHS/HKtjsJK3ygJMX8zz5Zm3su1Onq0Zx4rbDNFbSWyavPN3Xo92tyKexDMwLqssCDobnWCbqdVbTGx2XPcdLAG4su1OtrQmAeR77KurjUL03uFtXutY9iL1p+NjhVAITUD4A0LLRLGvBBpOl+Ao4+OAJSrVcIECGDMQJryRixBQD1NgKNPZ/B2wXWYqR5TRK+3ukLJaSFvGGSz/brrIy+Ufnsvowt078ELaRrQltYsXC2Ls0fCLtA1b9+W892nDY+EfaDbQbU+v7D20/ZMYz/L3K0u0P3NE9ZyOHFP6M8X4OjDozVvrQgeZEFQW3fQmk4eCftALZHYrx+J8TMAGIR0AwGAQgm1A62O/hUlp4WtY+idp15RK4cBzeUifmQAiQH+LqMX9O7cUj1eTmJUuzaJfmPSB3qst2LeS63t2jh7Bt8PSv9HkKOOnoL+AVP6mnp0uqwoAAAAAElFTkSuQmCC" alt="QR — démo WhatsApp"></div>
+      <div class="qr-cap">Scannez avec votre téléphone</div>
+    </div>
+    <div class="grow"></div>
+    <button class="btn btn-primary" onclick="go(6)">C'est fait, voir l'offre</button>
+  </section>
+
+  <!-- PAGE 6 — OFFRE -->
+  <section class="panel" data-i="6">
+    <div class="step">06 / 06</div>
+    <div class="logo">Assistant d'accueil</div>
+    <div class="logo-sub">Préparer chaque premier échange</div>
+    <div class="sp-l"></div>
+    <h2 class="center">Lançons-le ensemble.</h2>
+    <div class="sp"></div>
+    <div class="offer">
+      <div class="price"><span class="amt">149 €</span><span class="per">HT / mois</span></div>
+      <div class="oline">Sans engagement</div>
+      <div class="oline">Mise en service sous 48 h</div>
+      <div class="oline">Questionnaire sur mesure pour votre activité</div>
+      <div class="oline">Aucune interférence avec vos outils</div>
+    </div>
+    <div class="sp-l"></div>
+    <div class="qr-wrap">
+      <div class="qr"><img src="data:image/png;base64,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" alt="QR — souscrire"></div>
+      <div class="qr-cap">Souscrire maintenant</div>
+    </div>
+    <div class="contact">
+      <span class="who">Baptiste Rondot</span>
+      <span class="ph">06 48 20 33 45</span>
+    </div>
+    <div class="legal">EI SIRET 484 680 905 00037 — 57 rue Pierre Corneille, 69006 Lyon</div>
+  </section>
+
+  <!-- GOODBYE -->
+  <section class="panel goodbye" data-i="goodbye">
+    <div>
+      <div class="gb-msg">Merci pour votre temps.</div>
+      <div class="gb-sub">Bonne journée.</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var panels = {};
+  document.querySelectorAll('.panel').forEach(function(p){
+    panels[p.getAttribute('data-i')] = p;
+  });
+  window.go = function(target){
+    Object.keys(panels).forEach(function(k){ panels[k].classList.remove('active'); });
+    var t = panels[String(target)];
+    if(t){ t.classList.add('active'); t.scrollTop = 0; }
+  };
+
+  var pros=document.getElementById('pros'), fee=document.getElementById('fee'), no=document.getElementById('no'),
+      vPros=document.getElementById('vPros'), vFee=document.getElementById('vFee'), vNo=document.getElementById('vNo'),
+      euro=document.getElementById('euro'), lostCountEl=document.getElementById('lostCount'),
+      resultNoteEl=document.getElementById('resultNote');
+  function fmt(n){ try{ return Math.round(n).toLocaleString('fr-FR'); } catch(e){ return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,' '); } }
+  function calc(){
+    if(!pros||!fee||!no||!euro) return;
+    var p=+pros.value, f=+fee.value, n=+no.value;
+    if(vPros) vPros.textContent=fmt(p);
+    if(vFee) vFee.textContent=f+' €';
+    if(vNo) vNo.textContent=n;
+    var lostPerMonth=p*(n/10);
+    var lostCount=lostPerMonth*12;
+    var lostEuro=lostCount*f*12;
+    if(lostCountEl) lostCountEl.textContent='≈ '+fmt(lostCount);
+    euro.textContent='≈ '+fmt(lostEuro)+' €';
+    if(resultNoteEl) resultNoteEl.textContent=fmt(lostPerMonth)+' prospect(s)/mois × 12 mois — chaque non-signature ≈ 1 an d\'abonnement ('+fmt(f*12)+' €)';
+  }
+  if(pros&&fee&&no){ pros.addEventListener('input',calc); fee.addEventListener('input',calc); no.addEventListener('input',calc); }
+  calc();
+})();
+</script>
+</body>
+</html>
